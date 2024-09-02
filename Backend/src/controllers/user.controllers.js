@@ -2,7 +2,7 @@ const logger = require("../config/logger");
 const apiResponse = require("../utils/api.response");
 const message = require("../json/messages.json");
 const User = require("../models/user.model");
-const { hashPassword } = require("../utils/utils");
+const { hashPassword, comparePassword, generateToken } = require("../utils/utils");
 
 module.exports = {
     //signup rout controller
@@ -16,14 +16,14 @@ module.exports = {
                     res,
                     message: message.email_already_taken
                 });
-            }
+            };
 
             if (password !== confirmPassword) {
                 return apiResponse.BAD_REQUEST({
                     res,
                     message: message.passwords_do_not_match
                 });
-            }
+            };
 
             const hashedPassword = await hashPassword({ password });
 
@@ -41,7 +41,7 @@ module.exports = {
                     res,
                     message: message.user_creation_failed
                 });
-            }
+            };
 
             return apiResponse.OK({
                 res,
@@ -55,6 +55,50 @@ module.exports = {
                 }
             });
 
+        } catch (error) {
+            logger.error(`Internal server error: ${error.message}`);
+            return apiResponse.CATCH_ERROR({
+                res,
+                message: message.something_went_wrong
+            });
+        }
+    },
+    
+    //login route controller
+    login: async (req, res) => {
+        try {
+            const { email, password } = req.body;
+            const existEmail = await User.findOne({ email, deletedAt: null });
+    
+            if (!existEmail) {
+                return apiResponse.UNAUTHORIZED({
+                    res,
+                    message: message.email_not_register,
+                });
+            }
+    
+            const isPasswordMatch = await comparePassword({ password, hash: existEmail.password });
+            if (!isPasswordMatch) {
+                return apiResponse.UNAUTHORIZED({
+                    res,
+                    message: message.invalid_password,
+                });
+            }
+    
+            const token = await generateToken({ user: { id: existEmail._id } });
+    
+            return apiResponse.OK({
+                res,
+                message: message.login_successful,
+                data: {
+                    user: {
+                        fname: existEmail.fname,
+                        lname: existEmail.lname,
+                        email: existEmail.email
+                    },
+                    token: token
+                }
+            });
         } catch (error) {
             logger.error(`Internal server error: ${error.message}`);
             return apiResponse.CATCH_ERROR({

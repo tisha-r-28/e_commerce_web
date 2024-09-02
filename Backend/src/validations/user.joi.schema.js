@@ -12,6 +12,14 @@ const signUp = {
     }).with('password', 'confirmPassword') // Ensure password and confirmPassword are validated together
 }
 
+const login = {
+    body: Joi.object().keys({
+        email: Joi.string().email().required(),
+        password: Joi.string().min(5).max(10).required()
+    })
+}
+
 module.exports = {
-    signUp
+    signUp,
+    login
 }
