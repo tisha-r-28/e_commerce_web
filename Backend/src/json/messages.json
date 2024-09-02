@@ -1,5 +1,7 @@
 {
     "user_not_found": "User not found.",
+    "conflict" : "Conflict. The request could not be processed because of a conflict with the current state of the resource.",
+    "user_creation_failed": "Failed to create the user. Please ensure all details are correct and try again.",
     "user_not_verify": "User not verify.",
     "invalid_token": "Invalid Token",
     "email_already_taken": "Email is already exist.",
