@@ -10,16 +10,24 @@ const signUp = {
         confirmPassword: Joi.string().required().valid(Joi.ref('password')),
         phoneNo: Joi.string().min(10).required()
     }).with('password', 'confirmPassword') // Ensure password and confirmPassword are validated together
-}
+};
 
 const login = {
     body: Joi.object().keys({
         email: Joi.string().email().required(),
         password: Joi.string().min(5).max(10).required()
     })
-}
+};
+
+const changePassword = {
+    body: Joi.object().keys({
+        oldPassword: Joi.string().required(),
+        newPassword: Joi.string().required()
+    }).with('oladPassword', 'newPassword')
+};
 
 module.exports = {
     signUp,
-    login
-}
+    login,
+    changePassword
+};
