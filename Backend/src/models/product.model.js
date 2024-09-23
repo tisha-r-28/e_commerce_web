@@ -73,7 +73,7 @@ const productSchema = new Schema({
         type: String,  
         default: "05 days return policy."  
     }  
-});
+}, { timestamps: true } );
 
-const User = mongoose.model('products', productSchema);
-module.exports = User;
+const Product = mongoose.model('products', productSchema);
+module.exports = Product;

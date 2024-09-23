@@ -43,6 +43,7 @@ app.options("*", cors());
 app.use(cors({ origin: "*" }));
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 //use to set headers
 app.use(helmet());
 
