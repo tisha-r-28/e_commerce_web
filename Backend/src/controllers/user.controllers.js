@@ -107,4 +107,46 @@ module.exports = {
             });
         }
     },
+
+    //changepassword route controller
+    changePassword: async (req, res) => {
+        try {
+            const { oldPassword, newPassword } = req.body;
+            const existUser = await User.findById(req.user.id);
+            if(!existUser){
+                return apiResponse.FORBIDDEN({
+                    res,
+                    message: message.invalid_token
+                })
+            };
+            const isPasswordMatch = await comparePassword({ password: oldPassword, hash: existUser.password });
+            if(!isPasswordMatch){
+                return apiResponse.NOT_FOUND({
+                    res,
+                    message: message.old_password_wrong
+                })
+            }
+            const hashedPassword = await hashPassword({ password: newPassword });
+            const updatedPassword = await User.findByIdAndUpdate(existUser._id, { $set : { password: hashedPassword } }, { new: true });
+            if(!updatedPassword){
+                return apiResponse.CONFLICT({
+                    res, 
+                    message: message.conflict
+                })
+            }
+            return apiResponse.OK({
+                res,
+                message: message.updated,
+                data: {
+                    updatedPassword
+                }
+            })
+        } catch (error) {
+            logger.error(`Internal server error: ${error.message}`);
+            return apiResponse.CATCH_ERROR({
+                res,
+                message: `${message.something_went_wrong} | ${error.message}`
+            });
+        }
+    }
 }
