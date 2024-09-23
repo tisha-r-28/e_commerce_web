@@ -3,7 +3,7 @@ const  HTTP_CODES  = require("http-status");
 module.exports = {
     BAD_REQUEST: ({ res, message = '-', data = {} } = {}) => {
         res.status(HTTP_CODES.BAD_REQUEST).json({
-            success: false,
+            status: false,
             message: message,
             payload: data
         })
@@ -11,7 +11,7 @@ module.exports = {
 
     DUPLICATE_VALUE: ({ res, message, data = {} } = {}) => {
         res.status(HTTP_CODES.CONFLICT).json({
-            success: false,
+            status: false,
             message: message || "Duplicate value.",
             payload: data,
         });
@@ -19,7 +19,7 @@ module.exports = {
 
     FORBIDDEN: ({ res, message = "-", data = {} } = {}) => {
         res.status(HTTP_CODES.FORBIDDEN).json({
-            success: false,
+            status: false,
             message: message,
             payload: data,
         });
@@ -29,7 +29,7 @@ module.exports = {
         let responseCode = HTTP_CODES.INTERNAL_SERVER_ERROR;
         if ((message && message.includes("validation failed")) || message.includes("duplicate key error collection")) responseCode = HTTP_CODES.BAD_REQUEST;
         res.status(responseCode).json({
-            success: false,
+            status: false,
             message: message,
             payload: data,
         });
@@ -37,7 +37,7 @@ module.exports = {
 
     CONFLICT: ({ res, message = '-', data = {} } = {}) => {
         res.status(HTTP_CODES.CONFLICT).json({
-            success: false,
+            status: false,
             message: message,
             payload: data,
         });
@@ -45,13 +45,13 @@ module.exports = {
 
     METHOD_NOT_ALLOWED: ({ res, message = "-", data = {} } = {}) => {
         res.status(HTTP_CODES.METHOD_NOT_ALLOWED).json({
-            success: false, 
+            status: false, 
         });
     },
 
     MOVED_PERMANENTLY: ({ res, message = "-", data = {} } = {}) => {
         res.status(HTTP_CODES.MOVED_PERMANENTLY).json({
-            success: false,
+            status: false,
             message: message,
             payload: data,
         });
@@ -59,7 +59,7 @@ module.exports = {
 
     NOT_ACCEPTABLE: ({ res, message = "-", data = {} } = {}) => {
         res.status(HTTP_CODES.NOT_ACCEPTABLE).json({
-            success: false,
+            status: false,
             message: message,
             payload: data,
         });
@@ -67,7 +67,7 @@ module.exports = {
 
     NOT_FOUND: ({ res, message = "-", data = {} } = {}) => {
         res.status(HTTP_CODES.NOT_FOUND).json({
-            success: false,
+            status: false,
             message: message,
             payload: data,
         });
@@ -75,7 +75,7 @@ module.exports = {
 
     NO_CONTENT_FOUND: ({ res, message = "-", data = {} } = {}) => {
         res.status(HTTP_CODES.NO_CONTENT).json({
-            success: false,
+            status: false,
             message: message,
             payload: data,
         });
@@ -83,7 +83,7 @@ module.exports = {
 
     OK: ({ res, message = "-", data = {} } = {}) => {
         res.status(HTTP_CODES.OK).json({
-            success: true,
+            status: true,
             messages: message,
             payload: data,
         });
@@ -91,7 +91,7 @@ module.exports = {
 
     PERMANENT_REDIRECT: ({ res, message = "-", data = {} } = {}) => {
         res.status(HTTP_CODES.PERMANENT_REDIRECT).json({
-            success: false,
+            status: false,
             message: message,
             payload: data,
         });
@@ -99,7 +99,7 @@ module.exports = {
 
     UNAUTHORIZED: ({ res, message = "-", data = {} } = {}) => {
         res.status(HTTP_CODES.UNAUTHORIZED).json({
-            success: false,
+            status: false,
             message: message,
             payload: data,
         });
@@ -107,7 +107,7 @@ module.exports = {
 
     UPGRADE_REQUIRED: ({ res, message = "-", data = {} } = {}) => {
         res.status(HTTP_CODES.UPGRADE_REQUIRED).json({
-            success: false,
+            status: false,
             message: message,
             payload: data,
         });
@@ -115,7 +115,7 @@ module.exports = {
 
     VALIDATION_ERROR: ({ res, message = "-", data = {} } = {}) => {
         res.status(HTTP_CODES.VARIANT_ALSO_NEGOTIATES).json({
-            success: false,
+            status: false,
             message: message,
             payload: data,
         });
