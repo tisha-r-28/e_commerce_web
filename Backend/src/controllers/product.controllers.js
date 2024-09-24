@@ -10,7 +10,7 @@ module.exports = {
         try {
             const userId = req.user.id;
             const { title, description, price, category, subCategory, availability, salePrice, isOnSale, colors, images, ratings, shippingCost, returnsPolicy } = req.body;
-
+            
             const user = await User.findById(userId);
             if (!user || user.role !== "admin") {
                 return apiResponse.UNAUTHORIZED({
@@ -151,6 +151,32 @@ module.exports = {
                 message: message.updated,
                 data: updatedProducts
             }) 
+
+        } catch (error) {
+            logger.error(error.message);
+            return apiResponse.CATCH_ERROR({
+                res,
+                message: `${message.something_went_wrong} | ${error.message}`
+            });
+        }
+    },
+    //4: get all products
+    getAllProducts: async (req, res) => {
+        try {
+            const products = await Product.find();
+
+            if(!products){
+                return apiResponse.NOT_FOUND({
+                    res,
+                    message: `Products are ${message.not_found}`
+                })
+            }
+
+            return apiResponse.OK({
+                res,
+                message: `All ${message.data_get}`,
+                data: products
+            })
 
         } catch (error) {
             logger.error(error.message);

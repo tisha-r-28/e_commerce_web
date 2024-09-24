@@ -24,5 +24,6 @@
     "login_successful": "Login successfully",
     "otp_verify_success": "Otp verification successfully",
     "old_password_wrong": "old password is wrong",
-    "not_found": "No found"
+    "not_found": "No found",
+    "data_get": "Data get successfully."
 }
