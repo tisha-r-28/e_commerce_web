@@ -113,5 +113,51 @@ module.exports = {
                 message: `${message.something_went_wrong} | ${error.message}`
             });
         }
+    },
+    //3: update products
+    updateProducts: async (req, res) => {
+        try {
+
+            const userId = req.user.id;
+            const { productId } = req.params;
+
+            const user = await User.findById(userId);
+            if (!user || user.role !== "admin") {
+                return apiResponse.UNAUTHORIZED({
+                    res,
+                    message: `Cannot create product: ${message.unauthorized}`
+                });
+            }
+
+            const isProduct = await Product.findById(productId);
+            if(!isProduct){
+                return apiResponse.NOT_FOUND({
+                    res,
+                    message: `Products ${message.not_found}`
+                });
+            }
+
+            const updatedProducts = await Product.findByIdAndUpdate(productId, { $set: req.body }, { new: true });
+
+            if(!updatedProducts){
+                return apiResponse.CONFLICT({
+                    res,
+                    message: `No products were updated: ${message.conflict}`
+                });
+            }
+
+            return apiResponse.OK({
+                res,
+                message: message.updated,
+                data: updatedProducts
+            }) 
+
+        } catch (error) {
+            logger.error(error.message);
+            return apiResponse.CATCH_ERROR({
+                res,
+                message: `${message.something_went_wrong} | ${error.message}`
+            });
+        }
     }
 };
