@@ -23,5 +23,6 @@
     "route_not_found": "Route not found",
     "login_successful": "Login successfully",
     "otp_verify_success": "Otp verification successfully",
-    "old_password_wrong": "old password is wrong"
+    "old_password_wrong": "old password is wrong",
+    "not_found": "No found"
 }
