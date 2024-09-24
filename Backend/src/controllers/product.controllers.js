@@ -185,5 +185,32 @@ module.exports = {
                 message: `${message.something_went_wrong} | ${error.message}`
             });
         }
+    },
+
+    //4: get products by id
+    getProductsById: async (req, res) => {
+        try {
+
+            const { productId } = req.params;
+            const isProduct = await Product.findById(productId);
+            if(!isProduct){
+                return apiResponse.NOT_FOUND({
+                    res, 
+                    message: `Product ${message.not_found} for provided id.`
+                })
+            }
+            return apiResponse.OK({
+                res,
+                message: message.data_get,
+                data: isProduct
+            })
+
+        } catch (error) {
+            logger.error(error.message);
+            return apiResponse.CATCH_ERROR({
+                res,
+                message: `${message.something_went_wrong} | ${error.message}`
+            });
+        }
     }
 };
