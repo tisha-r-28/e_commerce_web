@@ -35,7 +35,14 @@ const removeProduct = {
     })
 }
 
+const updateProducts = {
+    params: Joi.object({
+        productId: Joi.string().pattern(/^[a-fA-F0-9,]+$/).required() // Accepts hex strings (MongoDB IDs) separated by commas
+    })
+}
+
 module.exports = {
     createProduct,
-    removeProduct
+    removeProduct,
+    updateProducts
 };
