@@ -31,19 +31,26 @@ const createProduct = {
 
 const removeProduct = {
     params: Joi.object({
-        productIds: Joi.string().pattern(/^[a-fA-F0-9,]+$/).required() // Accepts hex strings (MongoDB IDs) separated by commas
+        productIds: Joi.string().pattern(/^[a-fA-F0-9,]+$/).required() 
     })
 }
 
 const updateProducts = {
     params: Joi.object({
-        productId: Joi.string().pattern(/^[a-fA-F0-9,]+$/).required() // Accepts hex strings (MongoDB IDs) separated by commas
+        productId: Joi.string().pattern(/^[a-fA-F0-9,]+$/).required() 
     })
 }
 
 const getProductsById = {
     params: Joi.object({
-        productId: Joi.string().pattern(/^[a-fA-F0-9,]+$/).required() // Accepts hex strings (MongoDB IDs) separated by commas
+        productId: Joi.string().pattern(/^[a-fA-F0-9,]+$/).required() 
+    })
+}
+
+const sortProducts = {
+    query: Joi.object({
+        sortby: Joi.string().required(),
+        order: Joi.string().required()
     })
 }
 
@@ -51,5 +58,6 @@ module.exports = {
     createProduct,
     removeProduct,
     updateProducts,
-    getProductsById
+    getProductsById,
+    sortProducts
 };
