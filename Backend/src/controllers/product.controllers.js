@@ -4,6 +4,7 @@ const message = require("../json/messages.json");
 const Product = require("../models/product.model");
 const User = require("../models/user.model");
 const apiResponse = require("../utils/api.response");
+const getLowercaseFields = require("../utils/lowerCaseFields");
 
 module.exports = {
     createProduct: async (req, res) => {
@@ -187,7 +188,7 @@ module.exports = {
         }
     },
 
-    //4: get products by id
+    //5: get products by id
     getProductsById: async (req, res) => {
         try {
 
@@ -205,6 +206,59 @@ module.exports = {
                 data: isProduct
             })
 
+        } catch (error) {
+            logger.error(error.message);
+            return apiResponse.CATCH_ERROR({
+                res,
+                message: `${message.something_went_wrong} | ${error.message}`
+            });
+        }
+    },
+
+    //6: sort products by query params
+    sortProducts: async (req, res) => {
+        try {
+            const sortby = req.query.sortby || "price";
+            const order = req.query.order === "desc" ? -1 : 1;
+    
+            if (!sortby) {
+                return apiResponse.BAD_REQUEST({
+                    res,
+                    message: "Sort field is required."
+                });
+            }
+
+            const fieldMapping = {
+                "averagerating": "ratings.averageRating",
+                "totalreviews": "ratings.totalReviews"
+            };
+    
+            const multipleSortBy = sortby.toLowerCase().split(",").map((field) => field.trim());
+    
+            const validFields = getLowercaseFields(Product);
+    
+            const mappedSortBy = multipleSortBy.map(field => fieldMapping[field] || field);
+    
+            const invalidFields = mappedSortBy.filter(field => !validFields.includes(field.toLowerCase()));
+            if (invalidFields.length > 0) {
+                return apiResponse.BAD_REQUEST({
+                    res,
+                    message: `Invalid field(s): ${invalidFields.join(", ")}.`
+                });
+            }
+    
+            const sortObject = {};
+            mappedSortBy.forEach(field => {
+                sortObject[field] = order;
+            });
+    
+            const sortedProducts = await Product.find({}).sort(sortObject);
+    
+            return apiResponse.OK({
+                res,
+                message: message.data_get,
+                data: sortedProducts
+            });
         } catch (error) {
             logger.error(error.message);
             return apiResponse.CATCH_ERROR({
