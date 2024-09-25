@@ -14,6 +14,15 @@ const productSchema = new Schema({
         type: Number,
         required: true
     },
+    discount: {
+        type: Number,
+        required: true,  // Discount in percentage (e.g., 10 for 10%)
+        default: 0
+    },
+    discountedPrice: {
+        type: Number,  // This will be automatically calculated and saved
+        required: true
+    },
     category: {
         type: String,
         enum: ["Men", "Women"],
@@ -73,7 +82,17 @@ const productSchema = new Schema({
         type: String,  
         default: "05 days return policy."  
     }  
-}, { timestamps: true } );
+}, { timestamps: true });
+
+productSchema.pre('save', function(next) {
+    if (this.discount > 0) {
+        this.discountedPrice = this.price - (this.price * (this.discount / 100));
+    } else {
+        this.discountedPrice = this.price;
+    }
+    next();
+});
 
 const Product = mongoose.model('products', productSchema);
+
 module.exports = Product;
