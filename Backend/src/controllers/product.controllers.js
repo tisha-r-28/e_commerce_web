@@ -6,6 +6,8 @@ const User = require("../models/user.model");
 const apiResponse = require("../utils/api.response");
 const getLowercaseFields = require("../utils/lowerCaseFields");
 
+const uuid = require("uuid").v4;
+
 module.exports = {
     createProduct: async (req, res) => {
         try {
@@ -21,6 +23,7 @@ module.exports = {
             }
 
             const product = await Product.create({
+                id : uuid(),
                 title, 
                 description,
                 price,
