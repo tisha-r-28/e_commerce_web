@@ -5,6 +5,8 @@ const apiResponse = require("../utils/api.response");
 const User = require("../models/user.model");
 const Product = require("../models/product.model");
 
+const uuid = require("uuid").v4;
+
 module.exports = {
     //1 : create order with paymemt method COD.
     placeOrder: async (req, res) => {
@@ -30,6 +32,7 @@ module.exports = {
             }
 
             const newOrder = await Orders.create({
+                id: uuid(),
                 userId : user._id,
                 products, 
                 shippingAddress, 
