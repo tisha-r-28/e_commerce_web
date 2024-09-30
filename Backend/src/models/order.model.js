@@ -29,6 +29,10 @@ const shippingAddressSchema = new Schema({
 }, { _id: false });
 
 const orderSchema = new Schema({
+    id:{
+        type: String,
+        required: true
+    },
     userId: {
         type: String,
         required: true,
