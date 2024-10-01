@@ -8,6 +8,7 @@ const orderProductSchema = Joi.object({
 });
 
 const shippingAddressSchema = Joi.object({
+    fullName: Joi.string().required(),
     address: Joi.string().required(),
     city: Joi.string().required(),
     pinCode: Joi.string().required(),
@@ -17,13 +18,15 @@ const shippingAddressSchema = Joi.object({
 
 const createOrder = {
     body: Joi.object({
+        id: Joi.string(),
         products: Joi.array().items(orderProductSchema).min(1).required(), // There should be at least one product
         shippingAddress: shippingAddressSchema.required(), // Shipping address is required
-        totalPrice: Joi.number().min(0).required(), // Total price should be a non-negative number
+        totalPrice: Joi.number().min(0), // Total price should be a non-negative number
         shippingPrice: Joi.number().min(0).required(), // Shipping price should be a non-negative number
         paymentMethod: Joi.string().valid("Credit Card", "PayPal", "Cash on Delivery").required(),
         paymentStatus: Joi.string().valid("Pending", "Paid", "Failed").default("Pending"),
         paymentDate: Joi.date().optional(),
+        paymentIntentId: Joi.string(),
         taxAmount: Joi.number().min(0).default(0), // Tax amount should be a non-negative number
         orderStatus: Joi.string().valid("Pending", "Processing", "Shipped", "Delivered", "Cancelled").default("Pending"),
         isDelivered: Joi.boolean().default(false),
