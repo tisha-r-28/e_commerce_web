@@ -62,8 +62,7 @@ const orderSchema = new Schema({
     }],
     shippingAddress: shippingAddressSchema,
     totalPrice: {
-        type: Number,
-        required: true
+        type: Number
     },
     shippingPrice: {
         type: Number,
@@ -81,6 +80,9 @@ const orderSchema = new Schema({
     },
     paymentDate: { 
         type: Date 
+    },
+    paymentIntentId: { 
+        type: String 
     },
     taxAmount: { 
         type: Number, 
