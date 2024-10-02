@@ -3,6 +3,7 @@ require("dotenv").config();
 const cors = require("cors");
 const morgan = require("morgan");
 const helmet = require("helmet");
+const xssClean = require("xss-clean");
 
 const connecToMongo = require("./db/database");
 const logger = require("./config/logger");
@@ -46,6 +47,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 //use to set headers
 app.use(helmet());
+app.use(xssClean()); 
 
 app.use("/api/v1", routes);
 

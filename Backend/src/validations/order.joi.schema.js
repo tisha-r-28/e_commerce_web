@@ -34,6 +34,13 @@ const createOrder = {
     })
 };
 
+const updateOrder = {
+    params: Joi.object({
+        orderId: Joi.string().pattern(/^[a-fA-F0-9,]+$/).required() 
+    })
+}
+
 module.exports = {
-    createOrder
+    createOrder,
+    updateOrder
 };
