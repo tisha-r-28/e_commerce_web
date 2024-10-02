@@ -144,5 +144,60 @@ module.exports = {
                 message: `${message.something_went_wrong} | ${error.message}`
             });
         }
+    },
+    //update an order with id (ADMIN SIDE USEFULL)
+    updateOrder: async (req, res) => {
+        try {
+            const { orderId } = req.params;//validation in joi schema
+            const userId = req.user.id;
+            const user = await User.findById(userId);
+            if (!user || user.role !== "admin") {
+                return apiResponse.UNAUTHORIZED({
+                    res,
+                    message: `Cannot update order: ${message.unauthorized}`
+                });
+            }
+            const isOrder = await Orders.findById(orderId);
+            if(!isOrder){
+                return apiResponse.NOT_FOUND({
+                    res,
+                    message: message.not_found
+                })
+            }
+            const updateFields = {};
+            for(let key in req.body){
+                if(req.body.hasOwnProperty(key)){
+                    if(typeof req.body[key] === 'object' && !Array.isArray(req.body[key])){
+                        for (let nestedKey in req.body[key]) {
+                            updateFields[`${key}.${nestedKey}`] = req.body[key][nestedKey];
+                        }
+                    } else {
+                        updateFields[key] = req.body[key];
+                    }
+                }
+            }
+            const updatedOrder = await Orders.findByIdAndUpdate(
+                orderId, { $set: updateFields }, { new: true }
+            );    
+            if(!updatedOrder){
+                return apiResponse.CONFLICT({
+                    res,
+                    message: `No order were updated: ${message.conflict}`
+                });
+            }
+            return apiResponse.OK({
+                res,
+                message: `Order is ${ message.updated }`,
+                data: {
+                    updatedOrder
+                }
+            })
+        } catch (error) {
+            logger.error(`${message.something_went_wrong} | ${error.message}`);
+            return apiResponse.CATCH_ERROR({
+                res,
+                message: `${message.something_went_wrong} | ${error.message}`
+            });
+        }
     }
 }
