@@ -1,12 +1,13 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<h1>Home</h1>}/>
-            </Routes>
-        </BrowserRouter>
+        <h1 className="text-sky-400">Home</h1>
+        // <BrowserRouter>
+        //     <Routes>
+        //         <Route path="/" element={}/>
+        //     </Routes>
+        // </BrowserRouter>
     );
 }
 
