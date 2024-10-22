@@ -1,0 +1,115 @@
+@import "./breakpoint";
+@import "./mixins";
+@import "./var";
+
+h1 {
+    font-size: 48px !important;
+    color: $heading_color;
+}
+h2 {
+    font-size: 40px !important;
+}
+h3 {
+    font-size: 32px !important;
+}
+h4 {
+    font-size: 28px !important;
+}
+h5 {
+    font-size: 24px !important;
+}
+h6 {
+    font-size: 20px !important;
+}
+
+// Styles for medium devices (tablets)
+@include breakpoint("md-max") {
+    h1 {
+        font-size: 40px !important;
+    }
+    h2 {
+        font-size: 34px !important;
+    }
+    h3 {
+        font-size: 28px !important;
+    }
+    h4 {
+        font-size: 24px !important;
+    }
+    h5 {
+        font-size: 20px !important;
+    }
+    h6 {
+        font-size: 18px !important;
+    }
+}
+
+// Styles for small devices (mobile)
+@include breakpoint("sm-max") {
+    h1 {
+        font-size: 32px !important;
+    }
+    h2 {
+        font-size: 28px !important;
+    }
+    h3 {
+        font-size: 24px !important;
+    }
+    h4 {
+        font-size: 20px !important;
+    }
+    h5 {
+        font-size: 18px !important;
+    }
+    h6 {
+        font-size: 16px !important;
+    }
+}
+
+p {
+    font-size: 16px !important;
+    color: $text_color;
+    @media (max-width: 1024px) { 
+        font-size: 15px !important;
+    }
+    @media (max-width: 768px) { 
+        font-size: 14px !important;
+    }
+    @media (max-width: 480px) { 
+        font-size: 13px !important;
+    }
+}
+
+small {
+    font-size: 14px !important;
+    color: $small_text_color;
+    @media (max-width: 1024px) {
+        font-size: 13px !important;
+    }
+    @media (max-width: 768px) { 
+        font-size: 12px !important;
+    }
+    @media (max-width: 480px) { 
+        font-size: 11px !important;
+    }
+}
+
+button{
+    font-size: 1.2rem !important;
+
+    @include breakpoint("md-max") {
+        font-size: 1rem !important;
+    }
+
+    @include breakpoint("sm-max") {
+        font-size: 0.9rem !important;
+    }
+}
+
+.button-dark{
+    @include button(#3A2D28, #F1EDE6, #A48374);
+}
+
+.button-light{
+    @include button(#F1EDE6, #3A2D28, #3A2D28);
+}

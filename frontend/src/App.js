@@ -1,13 +1,13 @@
-// import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Header from "./components/Header/Header";
 
 function App() {
     return (
-        <h1 className="text-sky-400">Home</h1>
-        // <BrowserRouter>
-        //     <Routes>
-        //         <Route path="/" element={}/>
-        //     </Routes>
-        // </BrowserRouter>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Header />}/>
+            </Routes>
+        </BrowserRouter>
     );
 }
 

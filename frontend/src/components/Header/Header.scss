@@ -1,0 +1,106 @@
+@import "../../../style/mixins/index.scss";
+
+.hero-section {
+    background-color: #605b58;
+    padding: 20px;
+    position: relative; 
+
+    @include breakpoint("md-max") {
+        background: url("../../assets/images/hero-section-image-02.jpeg") no-repeat center;
+        background-size: cover;
+        object-fit: center;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: 1; 
+        }
+    }
+
+    .border-box,
+    .image-section {
+        position: relative;
+        z-index: 2;
+    }
+
+    .border-box {
+        border: 2px dashed #F1EDE6;
+
+        .header-box {
+            border: 1px solid #A48374;
+            padding: 60px 30px;
+            min-width: 300px;
+            position: relative;
+            top: 20px;
+            left: 20px;
+
+            p{
+                color: #A48374;
+            }
+
+            @include breakpoint("sm-max") {
+                width: 100%;
+                padding: 40px 20px;
+                top: 20px;
+                left: 10px;
+            }
+
+            @include breakpoint("xs-max") {
+                padding: 30px 15px;
+            }
+
+            .shop-button-light {
+                @include button(#F1EDE6, #3A2D28, #3A2D28);
+                transition: ease-in-out 0.5s !important;
+        
+                &:hover {
+                    @include button(#3A2D28, #F1EDE6, #3A2D28);
+                    border-radius: 50px !important;
+                    transition: ease-in-out 0.5s;
+                }
+            }
+
+            .discover-button-dark {
+                @include button(#3A2D28, #F1EDE6, #A48374);
+                transition: ease-in-out 0.5s !important;
+        
+                &:hover {
+                    @include button(#F1EDE6, #3A2D28, #3a2d28d6);
+                    border-radius: 80px !important;
+                    transition: ease-in-out 0.5s;
+                }
+            }
+        }
+    }
+
+    .image-section {
+        position: relative;
+
+        img {
+            border: 2px dashed #3A2D28;
+            padding: 10px;
+            height: 650px;
+            position: relative;
+            width: 100%;
+            object-fit: cover;
+            object-position: top;
+
+            @include breakpoint("lg-max") {
+                height: 550px;
+            }
+
+            @include breakpoint("sm-max") {
+                height: 500px;
+            }
+
+            @include breakpoint("xs-max") {
+                height: 350px;
+            }
+        }
+    }
+}

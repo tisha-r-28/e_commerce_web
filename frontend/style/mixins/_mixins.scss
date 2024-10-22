@@ -1,0 +1,13 @@
+@import "./breakpoint";
+
+@mixin button($bg_color, $text_color, $border_color){
+    background-color: $bg_color !important;
+    color: $text_color !important;
+    padding: 10px 25px !important;
+    border: 1px solid $border_color !important;
+    transition: ease-in-out 0.3s;
+    &:hover{
+        border-radius: 15px;
+        transition: ease-in 0.3s;
+    }
+}
